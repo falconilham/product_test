@@ -11,6 +11,7 @@ const axiosDefaultHeader = {
 
 const axiosInstance = axios.create({
   headers: axiosDefaultHeader,
+  baseURL: 'https://dummyjson.com/'
 });
 
 axiosInstance.interceptors.request.use(async (config) => {

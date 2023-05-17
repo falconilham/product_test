@@ -7,18 +7,12 @@ const { Provider } = store;
 const StateProvider = ({ children }) => {
     const [state, dispatch] = useReducer((state, action) => {
         switch (action.type) {
-            case 'add Task':
+            case 'add product':
                 const result = [...state, action.payload]
                 return result
-            case 'change task':
-                const selectedItem = state.find(({ id }) => id === action.payload.id)
-                const newItem = {
-                    ...selectedItem,
-                    status: action.payload.status
-                }
-                const filterItem = [...state].filter(({ id }) => id !== action.payload.id)
-                return [...filterItem, newItem]
-            case 'remove task':
+            case 'change product':
+                return action.payload
+            case 'remove product':
                 const removedItem = [...state].filter(({ id }) => id !== action.payload)
                 return removedItem
             default:
