@@ -1,6 +1,4 @@
 import axios from 'axios';
-// import decrypt from './decrypt'
-// import { getCookie } from 'cookies-next';
 
 const axiosDefaultHeader = {
   Accept: 'application/json',
