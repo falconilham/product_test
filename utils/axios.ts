@@ -1,15 +1,15 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig, AxiosInstance } from 'axios';
 
-const axiosDefaultHeader = {
+const axiosDefaultHeader: AxiosRequestConfig['headers'] = {
   Accept: 'application/json',
   'Content-Type': 'application/json',
-}
+};
 
 // ----------------------------------------------------------------------
 
-const axiosInstance = axios.create({
+const axiosInstance: AxiosInstance = axios.create({
   headers: axiosDefaultHeader,
-  baseURL: 'https://dummyjson.com/'
+  baseURL: 'https://dummyjson.com/',
 });
 
 axiosInstance.interceptors.request.use(async (config) => {
