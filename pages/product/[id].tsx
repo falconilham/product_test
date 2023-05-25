@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import {GetServerSidePropsContext} from 'next'
+import { GetServerSidePropsContext } from 'next';
 import { Container, Grid, Typography, Paper } from '@mui/material';
 import Carousel from 'react-material-ui-carousel';
 
@@ -12,6 +12,13 @@ type Product = {
   price: number;
   images: string[];
   stock: number;
+  category: string;
+};
+
+type SimilarItem = {
+  id: string;
+  title: string;
+  thumbnail: string;
 };
 
 type ProductPageProps = {
@@ -19,10 +26,24 @@ type ProductPageProps = {
 };
 
 function ProductPage({ product }: ProductPageProps) {
-  const { title, description, price, images, stock } = product;
+  const { title, description, price, images, stock, category } = product;
+  const [similarItems, setSimilarItems] = useState<SimilarItem[]>([]);
+
+  useEffect(() => {
+    // Fetch similar items based on product category, price range, or any other criteria
+    // Assign the fetched similar items data to the 'similarItems' state variable
+    const fetchSimilarItems = async () => {
+      // Example fetch request, replace with your actual implementation
+      const data = await fetcher(`/products/category/${category}`);
+      setSimilarItems(data?.products);
+    };
+
+    fetchSimilarItems();
+  }, []);
+  console.log({product})
   return (
-    <Container>
-      <Grid container spacing={2}>
+    <Container maxWidth="lg">
+      <Grid container spacing={4}>
         <Grid item xs={12} md={6}>
           <Carousel
             animation="slide"
@@ -37,16 +58,12 @@ function ProductPage({ product }: ProductPageProps) {
             }}
           >
             {images.map((imageUrl, index) => (
-              <Grid container key={index} justifyContent="center" alignItems="center" style={{ height: '100%' }}>
-                <Grid item>
-                  <Image src={imageUrl} alt={`Product Image ${index}`} width={500} height={500} />
-                </Grid>
-              </Grid>
+              <ImageSlide key={index} imageUrl={imageUrl} alt={`Product Image ${index}`} />
             ))}
           </Carousel>
         </Grid>
-        <Grid item xs={12} md={6}>
-          <Paper style={{ padding: '20px' }}>
+        <Grid item xs={12} md={6} alignItems="center" display="grid">
+          <Paper elevation={3} sx={{ padding: '20px' }}>
             <Typography variant="h5" gutterBottom>
               {title}
             </Typography>
@@ -61,8 +78,50 @@ function ProductPage({ product }: ProductPageProps) {
             </Typography>
           </Paper>
         </Grid>
+        <Grid item xs={12}>
+          <SimilarItems items={similarItems} />
+        </Grid>
       </Grid>
     </Container>
+  );
+}
+
+type ImageSlideProps = {
+  imageUrl: string;
+  alt: string;
+};
+
+function ImageSlide({ imageUrl, alt }: ImageSlideProps) {
+  return (
+    <Grid container justifyContent="center" alignItems="center" style={{ height: '100%' }}>
+      <Grid item>
+        <Image src={imageUrl} alt={alt} width={500} height={400} objectFit="contain" />
+      </Grid>
+    </Grid>
+  );
+}
+
+type SimilarItemsProps = {
+  items: SimilarItem[];
+};
+
+function SimilarItems({ items }: SimilarItemsProps) {
+  return (
+    <div>
+      <Typography variant="h6" gutterBottom>
+        Similar Items
+      </Typography>
+      <Grid container spacing={2}>
+        {items.map((item) => (
+          <Grid key={item.id} item xs={12} sm={6} md={4}>
+            <Paper>
+              <Image src={item.thumbnail} alt={item.title} width={300} height={200} />
+              <Typography variant="subtitle1">{item.title}</Typography>
+            </Paper>
+          </Grid>
+        ))}
+      </Grid>
+    </div>
   );
 }
 
