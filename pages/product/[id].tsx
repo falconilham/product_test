@@ -108,10 +108,10 @@ function SimilarItems({ items }: SimilarItemsProps) {
       <Typography variant="h6" gutterBottom>
         Similar Items
       </Typography>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} justifyContent="center"> {/* Added justifyContent="center" */}
         {items.map((item) => (
           <Grid key={item.id} item xs={12} sm={6} md={4}>
-            <Paper>
+            <Paper style={{ textAlign: 'center', padding: '10px' }}> {/* Added textAlign and padding */}
               <Image src={item.thumbnail} alt={item.title} width={300} height={200} />
               <Typography variant="subtitle1">{item.title}</Typography>
             </Paper>
