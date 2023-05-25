@@ -30,17 +30,14 @@ function ProductPage({ product }: ProductPageProps) {
   const [similarItems, setSimilarItems] = useState<SimilarItem[]>([]);
 
   useEffect(() => {
-    // Fetch similar items based on product category, price range, or any other criteria
-    // Assign the fetched similar items data to the 'similarItems' state variable
     const fetchSimilarItems = async () => {
-      // Example fetch request, replace with your actual implementation
       const data = await fetcher(`/products/category/${category}`);
       setSimilarItems(data?.products);
     };
 
     fetchSimilarItems();
-  }, []);
-  console.log({product})
+  }, [category]);
+
   return (
     <Container maxWidth="lg">
       <Grid container spacing={4}>
