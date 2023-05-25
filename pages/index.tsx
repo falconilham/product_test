@@ -91,47 +91,49 @@ function Home() {
         hasMore={hasMore}
         loader={<h4>Loading...</h4>}
       >
-        <Grid container justifyContent="space-between" spacing={2}>
-          <Grid item xs={12} sm={6} md={4}>
-            <FormControl style={{ width: '100%' }}>
-              <InputLabel>Select Category</InputLabel>
-              <Select value={selectedCategory} onChange={handleCategoryChange}>
-                <MenuItem value="">All Categories</MenuItem>
-                {listcategories.map((category) => (
-                  <MenuItem key={category} value={category}>
-                    {category}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <FormControl style={{ width: '100%' }}>
-              <InputLabel>Sort By</InputLabel>
-              <Select value={sortBy} onChange={handleSortChange} label='Sort By'>
-                <MenuItem value="">Sort By</MenuItem>
-                <MenuItem value="asc">Price - Low to High</MenuItem>
-                <MenuItem value="desc">Price - High to Low</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-        </Grid>
-        <Grid rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} container spacing={2}>
-          {usedProducts.map((product) => (
-            <Grid key={product.id} item xs={12} sm={6} md={4}>
-              <Paper style={{ cursor: 'pointer', padding: '16px', height: '100%' }} onClick={() => router.push(`/product/${product?.id}`)}>
-                <div style={{ position: 'relative', width: '100%', paddingTop: '100%', overflow: 'hidden' }}>
-                  <Image src={product.thumbnail} alt={product.title} layout="fill" objectFit="contain" />
-                </div>
-                <Typography variant="subtitle1" style={{ marginTop: '8px', overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
-                  {product.title}
-                </Typography>
-                <Typography variant="body1" style={{ marginTop: '8px' }}>
-                  ${product.price}
-                </Typography>
-              </Paper>
+        <Grid container spacing={2} flexDirection="column" rowGap={2}>
+          <Grid container justifyContent="space-between" spacing={2}>
+            <Grid item xs={12} sm={4} md={4}>
+              <FormControl style={{ width: '100%' }}>
+                <InputLabel>Select Category</InputLabel>
+                <Select value={selectedCategory} onChange={handleCategoryChange}>
+                  <MenuItem value="">All Categories</MenuItem>
+                  {listcategories.map((category) => (
+                    <MenuItem key={category} value={category}>
+                      {category}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </Grid>
-          ))}
+            <Grid item xs={12} sm={4} md={4}>
+              <FormControl style={{ width: '100%' }}>
+                <InputLabel>Sort By</InputLabel>
+                <Select value={sortBy} onChange={handleSortChange} label='Sort By'>
+                  <MenuItem value="">Sort By</MenuItem>
+                  <MenuItem value="asc">Price - Low to High</MenuItem>
+                  <MenuItem value="desc">Price - High to Low</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+          </Grid>
+          <Grid container rowGap={5} columnSpacing={{ xs: 1, sm: 2, md: 3 }} spacing={2}>
+            {usedProducts.map((product) => (
+              <Grid key={product.id} item xs={12} sm={6} md={4}>
+                <Paper style={{ cursor: 'pointer', padding: '16px', height: '100%' }} onClick={() => router.push(`/product/${product?.id}`)}>
+                  <div style={{ position: 'relative', width: '100%', paddingTop: '100%', overflow: 'hidden' }}>
+                    <Image src={product.thumbnail} alt={product.title} layout="fill" objectFit="contain" />
+                  </div>
+                  <Typography variant="subtitle1" style={{ marginTop: '8px', overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                    {product.title}
+                  </Typography>
+                  <Typography variant="body1" style={{ marginTop: '8px' }}>
+                    ${product.price}
+                  </Typography>
+                </Paper>
+              </Grid>
+            ))}
+          </Grid>
         </Grid>
       </InfiniteScroll>
     </Container>

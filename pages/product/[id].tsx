@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { GetServerSidePropsContext } from 'next';
 import { Container, Grid, Typography, Paper } from '@mui/material';
+import Link from 'next/link';
 import Carousel from 'react-material-ui-carousel';
 
 import { fetcher } from '../../utils/request';
@@ -92,7 +93,7 @@ function ImageSlide({ imageUrl, alt }: ImageSlideProps) {
   return (
     <Grid container justifyContent="center" alignItems="center" style={{ height: '100%' }}>
       <Grid item>
-        <Image src={imageUrl} alt={alt} width={500} height={400} objectFit="contain" />
+        <Image src={imageUrl} alt={alt} width={500} height={400} objectFit="contain" priority />
       </Grid>
     </Grid>
   );
@@ -108,13 +109,15 @@ function SimilarItems({ items }: SimilarItemsProps) {
       <Typography variant="h6" gutterBottom>
         Similar Items
       </Typography>
-      <Grid container spacing={2} justifyContent="center"> {/* Added justifyContent="center" */}
+      <Grid container spacing={2} justifyContent="center"> 
         {items.map((item) => (
-          <Grid key={item.id} item xs={12} sm={6} md={4}>
-            <Paper style={{ textAlign: 'center', padding: '10px' }}> {/* Added textAlign and padding */}
+          <Grid style={{cursor: 'pointer'}} key={item.id} item xs={12} sm={6} md={4}>
+            <Link href={`/product/${item?.id}`} passHref>
+            <Paper style={{ textAlign: 'center', padding: '10px' }}>
               <Image src={item.thumbnail} alt={item.title} width={300} height={200} />
               <Typography variant="subtitle1">{item.title}</Typography>
-            </Paper>
+              </Paper>
+              </Link>
           </Grid>
         ))}
       </Grid>
